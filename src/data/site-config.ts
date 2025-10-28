@@ -22,6 +22,13 @@ export type Subscribe = {
     formUrl: string;
 };
 
+export type Analytics = {
+    clarity?: {
+        projectId?: string;
+        enabled?: boolean;
+    };
+};
+
 export type SiteConfig = {
     website: string;
     logo?: Image;
@@ -34,6 +41,7 @@ export type SiteConfig = {
     socialLinks?: Link[];
     hero?: Hero;
     subscribe?: Subscribe;
+    analytics?: Analytics;
     postsPerPage?: number;
     projectsPerPage?: number;
 };
@@ -115,6 +123,12 @@ const siteConfig: SiteConfig = {
         title: 'Subscribe to Dante Newsletter',
         text: 'One update per week. All the latest posts directly in your inbox.',
         formUrl: '#'
+    },
+    analytics: {
+        clarity: {
+            projectId: 'tx4xll2qwj', // Add your Clarity project ID here
+            enabled: true // Set to true to enable Clarity tracking
+        }
     },
     postsPerPage: 8,
     projectsPerPage: 8
