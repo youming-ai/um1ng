@@ -92,10 +92,6 @@ const siteConfig: SiteConfig = {
     hero: {
         title: '',
         text: '',
-        image: {
-            src: '/hero.jpeg',
-            alt: 'um1ng'
-        },
         actions: [
             {
                 text: 'View Projects',
