@@ -1,43 +1,59 @@
 ---
 title: About
 seo:
-  title: About Me
-  description: Learn more about the person behind the website and embark on a journey of inspiration and shared experiences.
+  title: About — youming / um1ng
+  description: 关于 youming (um1ng) — Cooking @ elestyle，专注 AI 应用、开发者工具与 Web3 交易终端，开源在 youming-ai。
   image:
     src: '/about.jpeg'
-    alt: A person sitting at a desk in front of a computer
+    alt: 'youming'
 ---
 
-![Alt text for image](/about.jpeg)
+![youming](/about.jpeg)
 
-**Note!:** This about page is entirely fictional and created for the purpose of showcasing [Dante Astro.js theme functionality](https://justgoodui.com/astro-themes/dante/).
+## youming — Cooking @ elestyle
 
-## Ethan Donovan - Web Developer based in Estonia
+Hi, I’m **youming** (aka **um1ng**)。在 [youming-ai](https://github.com/youming-ai) 做开源，方向是 **AI 应用、开发者工具与 Web3**。本博客 [um1ng.com](https://um1ng.com) 用 Astro + Cloudflare Workers 搭建，内容以作品集与踩坑笔记为主。
 
-**Greetings!** I'm Ethan Donovan, a passionate web developer residing in the picturesque landscapes of [Estonia](https://en.wikipedia.org/wiki/Estonia). With a keen eye for design and a love for crafting seamless digital experiences, I bring a unique blend of creativity and technical expertise to the world of web development.
+## 在做什么
 
-## Skills and Expertise
+**AI 应用** — 让模型离用户更近：
 
-I specialize in front-end and back-end development, utilizing the latest technologies to build responsive and user-friendly websites. My proficiency includes **HTML**, **CSS**, **JavaScript**, and frameworks such as **Astro.js** for dynamic and interactive user interfaces. On the server side, I'm well-versed in Node.js and have experience with database management systems like MongoDB.
+- [OCR](https://github.com/youming-ai/ocr) — 浏览器端 PaddleOCR (WASM)，零文件外发，[ocr.um1ng.me](https://ocr.um1ng.me) 已上线
+- [shadowing-learning](https://github.com/youming-ai/shadowing-learning) — 音频/YouTube → 影子跟读训练，Groq Whisper + LLM 分块精加工
+- [zooom](https://github.com/youming-ai/zooom) — LiveKit + Deepgram + Gemini 实时中日双语字幕
+- [umuo](https://github.com/youming-ai/umuo) — AI 精选新闻模板 (Astro + D1 + KV)，[umuo.app](https://umuo.app) 生产运行
 
-## Innovation and Problem-Solving
+**开发者工具** — 提效与可观测性：
 
-I thrive on solving complex problems and transforming ideas into functional, elegant websites. Whether it's optimizing performance, implementing new features, or troubleshooting issues, I approach each challenge with enthusiasm and a commitment to delivering high-quality solutions.
+- [agent-usage-monitor](https://github.com/youming-ai/agent-usage-monitor) — Rust TUI，Claude/Codex 用量监控 + MCP
+- [pikpak-downloader](https://github.com/youming-ai/pikpak-downloader) — Rust PikPak 高性能下载器 (★18)
+- [snatch](https://github.com/youming-ai/snatch) — yt-dlp 全网视频下载，Bun + Hono + Docker
+- [bun-ts-stack-skills](https://github.com/youming-ai/bun-ts-stack-skills) — All-in-Cloudflare 全栈技能包
 
-## Global Perspective, Local Impact
+**Web3** — 交易终端：
 
-Living in Estonia has not only influenced my appreciation for nature and culture but has also shaped my approach to web development. I understand the importance of creating digital solutions that resonate with local audiences while maintaining a global perspective.
+- [HyperDash](https://github.com/youming-ai/Hyperliquid-Whale-Tracker) — Hyperliquid 鲸鱼发现 + 跟单 (Turborepo + Workers + Go)
+- [Nexus](https://github.com/youming-ai/Nexus) — Next.js 15 + Supabase + Prisma 启动模板
 
-## Continuous Learning
+完整分类与技术雷达见博文《[我的开源作品集盘点](/blog/portfolio-overview)》与项目页 [/projects](/projects)。
 
-The dynamic nature of the tech industry inspires me to stay up-to-date with the latest trends and advancements. I'm always eager to expand my skill set and embrace emerging technologies that enhance the functionality and aesthetics of the websites I create.
+## 技术栈
 
-## Collaboration and Communication
+**常驻：** Bun · TypeScript (strict) · Rust · Go · Python  
+**前端：** React 19 · TanStack Start/Router/Query · Astro 7 · Tailwind v4 · shadcn/ui  
+**后端/ infra：** Cloudflare Workers · D1 · KV · R2 · Hyperdrive · Hono · Drizzle · Better Auth · LiveKit · yt-dlp  
+**AI：** ONNX Runtime Web · Groq · Deepgram · Gemini · PaddleOCR
 
-I believe in the power of collaboration and effective communication. Whether working with clients, designers, or fellow developers, I value clear communication to ensure the success of every project.
+默认新项目用 **Bun + TanStack Start + Cloudflare Workers + D1/KV + Drizzle** — 约定沉淀在 [bun-ts-stack-skills](https://github.com/youming-ai/bun-ts-stack-skills)。
+
+## 联系
+
+- GitHub: [@youming-ai](https://github.com/youming-ai)
+- X/Twitter: [@youming_ai](https://x.com/youming_ai)
+- Email: via GitHub profile
+
+> 本站基于 [Dante Astro 主题](https://github.com/JustGoodUI/dante-astro-theme) 二次开发，MIT 开源。
 
 ## Get in Touch
 
-Are you looking to elevate your online presence or bring your digital ideas to life? I'd love to hear from you! Feel free to reach out for collaboration, consultation, or just a friendly chat about all things web development.
-
-_Let's build something amazing together!_
+有合作、内推或想聊项目，欢迎通过 GitHub 或 X 联系。开源 issue/PR 更优先回复。

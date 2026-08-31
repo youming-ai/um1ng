@@ -1,14 +1,19 @@
 ---
 title: Get in touch
 seo:
-  title: Contact
-  description: Get in touch through email or social media! Let me know how I can help.
+  title: Contact — youming
+  description: 联系 youming — GitHub、X/Twitter 或邮件。
 ---
 
-Thank you for reaching out! Whether you have a question, a suggestion, or just want to share your thoughts, I'm all ears. Feel free to get in touch through any of the methods below:
+欢迎联系！无论是项目合作、技术交流还是开源协作，都可以通过以下方式找到我：
+
+_GitHub:_
+[github.com/youming-ai](https://github.com/youming-ai) — 提 issue/PR 最快响应
+
+_X/Twitter:_
+[x.com/youming_ai](https://x.com/youming_ai)
 
 _Email:_
-Feel free to drop me an email at [example@example.com](mailto:example@example.com), and I'll do my best to respond as soon as possible.
+通过 GitHub profile 邮箱联系
 
-_Social Media:_
-Connect with me on social media as well. Find me on [Twitter](https://twitter.com) or [LinkedIn](https://www.linkedin.com/).
+> 开源协作优先：如果是关于 [作品集](/projects) 中项目的 bug 或 feature，直接在对应 repo 提 issue 即可。

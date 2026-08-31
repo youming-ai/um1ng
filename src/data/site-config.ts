@@ -41,11 +41,12 @@ export type SiteConfig = {
 const siteConfig: SiteConfig = {
     website: 'https://um1ng.com',
     title: 'um1ng',
-    subtitle: 'Minimal Astro.js theme',
-    description: 'Astro.js and Tailwind CSS theme for blog and portfolio by justgoodui.com',
+    subtitle: 'youming — Cooking @ elestyle',
+    description:
+        'youming (um1ng) 的作品集与博客 — AI 应用、开发者工具与 Web3 交易终端。10+ 开源项目，全部开源在 GitHub。',
     image: {
         src: '/dante-preview.jpg',
-        alt: 'Dante - Astro.js and Tailwind CSS theme'
+        alt: 'um1ng — youming portfolio'
     },
     headerNavLinks: [
         {
@@ -71,49 +72,45 @@ const siteConfig: SiteConfig = {
             href: '/about'
         },
         {
-            text: 'Contact',
-            href: '/contact'
+            text: 'GitHub',
+            href: 'https://github.com/youming-ai'
         },
         {
-            text: 'Terms',
-            href: '/terms'
-        },
-        {
-            text: 'Download theme',
-            href: 'https://github.com/JustGoodUI/dante-astro-theme'
+            text: 'RSS',
+            href: '/rss.xml'
         }
     ],
     socialLinks: [
         {
-            text: 'Dribbble',
-            href: 'https://dribbble.com/'
-        },
-        {
-            text: 'Instagram',
-            href: 'https://instagram.com/'
+            text: 'GitHub',
+            href: 'https://github.com/youming-ai'
         },
         {
             text: 'X/Twitter',
-            href: 'https://twitter.com/'
+            href: 'https://x.com/youming_ai'
         }
     ],
     hero: {
-        title: 'Hi There & Welcome to My Corner of the Web!',
-        text: "I'm **Ethan Donovan**, a web developer at Amazing Studio, dedicated to the realms of collaboration and artificial intelligence. My approach involves embracing intuition, conducting just enough research, and leveraging aesthetics as a catalyst for exceptional products. I have a profound appreciation for top-notch software, visual design, and the principles of product-led growth. Feel free to explore some of my coding endeavors on <a href='https://github.com/JustGoodUI/dante-astro-theme'>GitHub</a> or follow me on <a href='https://twitter.com/justgoodui'>Twitter/X</a>.",
+        title: 'Hi, I’m youming — building in AI, Web3 & DevTools.',
+        text: 'Cooking at <a href="https://github.com/youming-ai" target="_blank" rel="noopener">youming-ai</a> · 10+ 开源项目，涵盖 <strong>AI 应用</strong>（OCR / 跟读 / 实时字幕 / AI 新闻）、<strong>开发者工具</strong>（用量监控 / 下载器 / 全栈技能包）与 <strong>Web3 交易终端</strong>（Hyperliquid 鲸鱼跟单）。全部跑在 Cloudflare / Bun / Rust 上，开箱即用。',
         image: {
             src: '/hero.jpeg',
-            alt: 'A person sitting at a desk in front of a computer'
+            alt: 'youming — um1ng'
         },
         actions: [
             {
-                text: 'Get in Touch',
-                href: '/contact'
+                text: 'View Projects',
+                href: '/projects'
+            },
+            {
+                text: 'GitHub',
+                href: 'https://github.com/youming-ai'
             }
         ]
     },
     subscribe: {
-        title: 'Subscribe to Dante Newsletter',
-        text: 'One update per week. All the latest posts directly in your inbox.',
+        title: 'Subscribe',
+        text: '偶尔更新新项目与踩坑笔记。',
         formUrl: '#'
     },
     postsPerPage: 8,
