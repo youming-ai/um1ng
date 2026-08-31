@@ -41,12 +41,11 @@ export type SiteConfig = {
 const siteConfig: SiteConfig = {
     website: 'https://um1ng.com',
     title: 'um1ng',
-    subtitle: 'youming — Cooking @ elestyle',
-    description:
-        'youming (um1ng) 的作品集与博客 — AI 应用、开发者工具与 Web3 交易终端。10+ 开源项目，全部开源在 GitHub。',
+    subtitle: '',
+    description: 'um1ng — projects and blog.',
     image: {
         src: '/dante-preview.jpg',
-        alt: 'um1ng — youming portfolio'
+        alt: 'um1ng'
     },
     headerNavLinks: [
         {
@@ -91,11 +90,11 @@ const siteConfig: SiteConfig = {
         }
     ],
     hero: {
-        title: 'Hi, I’m youming — building in AI, Web3 & DevTools.',
-        text: 'Cooking at <a href="https://github.com/youming-ai" target="_blank" rel="noopener">youming-ai</a> · 10+ 开源项目，涵盖 <strong>AI 应用</strong>（OCR / 跟读 / 实时字幕 / AI 新闻）、<strong>开发者工具</strong>（用量监控 / 下载器 / 全栈技能包）与 <strong>Web3 交易终端</strong>（Hyperliquid 鲸鱼跟单）。全部跑在 Cloudflare / Bun / Rust 上，开箱即用。',
+        title: '',
+        text: '',
         image: {
             src: '/hero.jpeg',
-            alt: 'youming — um1ng'
+            alt: 'um1ng'
         },
         actions: [
             {
@@ -110,7 +109,7 @@ const siteConfig: SiteConfig = {
     },
     subscribe: {
         title: 'Subscribe',
-        text: '偶尔更新新项目与踩坑笔记。',
+        text: '',
         formUrl: '#'
     },
     postsPerPage: 8,
