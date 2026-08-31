@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://um1ng.com/sitemap-index.xml

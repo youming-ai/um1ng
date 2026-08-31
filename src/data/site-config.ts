@@ -16,24 +16,16 @@ export type Hero = {
     actions?: Link[];
 };
 
-export type Subscribe = {
-    title?: string;
-    text?: string;
-    formUrl: string;
-};
-
 export type SiteConfig = {
     website: string;
     logo?: Image;
     title: string;
     subtitle?: string;
     description: string;
-    image?: Image;
     headerNavLinks?: Link[];
     footerNavLinks?: Link[];
     socialLinks?: Link[];
     hero?: Hero;
-    subscribe?: Subscribe;
     postsPerPage?: number;
     projectsPerPage?: number;
 };
@@ -43,10 +35,6 @@ const siteConfig: SiteConfig = {
     title: 'um1ng',
     subtitle: '',
     description: 'um1ng — projects and blog.',
-    image: {
-        src: '/dante-preview.jpg',
-        alt: 'um1ng'
-    },
     headerNavLinks: [
         {
             text: 'Home',
@@ -89,25 +77,6 @@ const siteConfig: SiteConfig = {
             href: 'https://x.com/youming_ai'
         }
     ],
-    hero: {
-        title: '',
-        text: '',
-        actions: [
-            {
-                text: 'View Projects',
-                href: '/projects'
-            },
-            {
-                text: 'GitHub',
-                href: 'https://github.com/youming-ai'
-            }
-        ]
-    },
-    subscribe: {
-        title: 'Subscribe',
-        text: '',
-        formUrl: '#'
-    },
     postsPerPage: 8,
     projectsPerPage: 8
 };
