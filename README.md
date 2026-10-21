@@ -1,54 +1,43 @@
 # um1ng
 
-[um1ng.com](https://um1ng.com) — 个人项目展示与博客,基于 [Dante](https://github.com/JustGoodUI/dante-astro-theme) 主题(Astro.js + Tailwind CSS)定制。
-
-## 功能
-
-- 暗色 / 亮色模式
-- 项目集(Portfolio)与博客,支持标签、分页
-- RSS、Sitemap、OpenGraph SEO
-- Markdown & MDX
+[um1ng.com](https://um1ng.com) — 个人主页：一个跟随鼠标转动的线框 + 粒子骷髅头(three.js),效果参考 [pvp.trade](https://pvp.trade/)。
 
 ## 技术栈
 
-- [Astro.js 5](https://astro.build) + MDX / RSS / Sitemap
+- [Astro 7](https://astro.build),单页预渲染
 - [Tailwind CSS 4](https://tailwindcss.com)
-- 部署:Cloudflare(静态资源,`wrangler.jsonc`)
+- [three.js](https://threejs.org):`src/Skull.astro`
+- 部署:[Void](https://void.cloud) → Cloudflare Workers
+
+骷髅头模型:[Human Skull](https://opengameart.org/content/human-skull-0) by CDmir,CC0。
 
 ## 开发
 
-需要 Node >= 20、[pnpm](https://pnpm.io)。
+需要 [Bun](https://bun.sh)。
 
 ```sh
-pnpm install
-pnpm dev        # 本地开发 http://localhost:4321
-pnpm build      # 构建到 ./dist/
-pnpm preview    # 本地预览构建结果
+bun install
+bun dev         # http://localhost:4321
+bun run build
+bun preview     # 预览构建结果(后台运行,重新 build 后先 `bunx astro preview stop`)
 ```
 
 ## 部署
 
 ```sh
-pnpm build
-npx wrangler deploy
+bunx void deploy --platform cloudflare   # 第一次:浏览器登录并选择账号
+bun run deploy                           # 之后
 ```
+
+Worker 名在 `void.config.ts`(`um1ng`)。
 
 ## 目录结构
 
 ```text
-├── public/                  # 静态资源
+├── public/models/skull.obj
 ├── src/
-│   ├── components/
-│   ├── content/
-│   │   ├── blog/            # 博客文章(Markdown)
-│   │   ├── projects/        # 项目介绍(Markdown)
-│   │   └── pages/           # 独立页面(如 About)
-│   ├── data/site-config.ts  # 站点配置(标题、导航、社交链接等)
-│   ├── layouts/
-│   └── pages/
-└── wrangler.jsonc
+│   ├── pages/index.astro  # 唯一页面,底部 X / GitHub 链接
+│   ├── Skull.astro
+│   └── styles.css
+└── void.config.ts
 ```
-
-## License
-
-基于 [GPL-3.0](LICENSE) 协议(继承自 Dante 主题)。
