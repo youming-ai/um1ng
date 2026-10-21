@@ -1,6 +1,8 @@
 import { defineConfig } from 'void/config';
 
 export default defineConfig({
+    // A Void app (voidPlugin in vite.config.ts): Void builds and deploys it, no --dir.
+    inference: { appType: 'void' },
     cloudflare: {
         // Preserve the existing Worker's domains and visibility when Void publishes it.
         name: 'um1ng',

@@ -2,7 +2,7 @@
 
 [um1ng.me](https://um1ng.me) · 个人主页，跟随鼠标转动的线框与粒子骷髅头。
 
-Vite · Tailwind CSS · three.js · Cloudflare Workers（Void 部署）。
+[Void](https://void.cloud)（Vite）· Tailwind CSS · three.js · Cloudflare Workers。
 
 ## 使用
 
@@ -11,9 +11,9 @@ Vite · Tailwind CSS · three.js · Cloudflare Workers（Void 部署）。
 ```sh
 bun install
 bun dev          # 本地开发
-bun run build    # 构建到 dist
+bun run build    # 构建到 dist/client（静态资源）和 dist/ssr（Worker）
 bun preview      # 预览构建结果
-bun run deploy   # 部署已构建的产物
+bun run deploy   # void deploy：构建并部署
 ```
 
 Cloudflare Workers Builds：构建命令 `bun run build`，部署命令 `bun run deploy`。Worker、域名和访问设置在 `void.config.ts`。
@@ -29,8 +29,8 @@ index.html             # 首页与社交链接
 src/
 ├── main.ts            # three.js 场景与交互
 └── styles.css         # 全局样式
-vite.config.ts         # Tailwind 与构建
-void.config.ts         # Cloudflare 部署
+vite.config.ts         # Tailwind 与 voidPlugin
+void.config.ts         # app 类型与 Cloudflare 部署
 ```
 
 ## 署名

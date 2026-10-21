@@ -2,6 +2,7 @@
 node_modules/
 dist/
 .void/
+.void-wrangler.jsonc
 .wrangler/
 
 # Local environment and logs
