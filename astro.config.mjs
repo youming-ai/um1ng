@@ -11,7 +11,7 @@ export default defineConfig({
     adapter: cloudflare({ configPath: './.void-wrangler.jsonc', imageService: 'passthrough' }),
     vite: {
         plugins: [tailwindcss(), voidPlugin()],
-        // ponytail: three.js (WebGLRenderer) alone is ~550 kB min / ~135 kB gzip and can't be tree-shaken further.
+        // Allow for the three.js renderer bundle.
         build: { chunkSizeWarningLimit: 700 }
     }
 });
