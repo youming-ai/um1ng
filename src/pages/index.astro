@@ -18,9 +18,9 @@ const links = [
         <meta name="description" content="um1ng" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     </head>
-    <body class="relative h-dvh overflow-hidden bg-[radial-gradient(ellipse_at_center,#4a4640_0%,#22201d_45%,#121110_100%)] font-sans antialiased">
+    <body class="relative h-dvh overflow-hidden font-sans antialiased">
         <Skull />
-        <footer class="rise absolute inset-x-0 bottom-10 flex justify-center gap-8 text-stone-400">
+        <footer class="absolute inset-x-0 bottom-10 flex justify-center gap-8 text-stone-400">
             {links.map((l) => <a href={l.href} class="hover:text-white">{l.text}</a>)}
         </footer>
     </body>
