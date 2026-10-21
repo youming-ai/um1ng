@@ -2,7 +2,7 @@
 
 [um1ng.me](https://um1ng.me) · 个人主页，跟随鼠标转动的线框与粒子骷髅头。
 
-Astro · Tailwind CSS · three.js · Cloudflare Workers（Void 部署）。
+[Void](https://void.cloud)（Vite）· 原生 WebGL · Cloudflare Workers，无运行时依赖。
 
 ## 使用
 
@@ -11,9 +11,9 @@ Astro · Tailwind CSS · three.js · Cloudflare Workers（Void 部署）。
 ```sh
 bun install
 bun dev          # 本地开发
-bun run build    # 构建到 dist/client
+bun run build    # 构建到 dist
 bun preview      # 预览构建结果
-bun run deploy   # 部署已构建的产物
+bun run deploy   # void deploy：构建并部署
 ```
 
 Cloudflare Workers Builds：构建命令 `bun run build`，部署命令 `bun run deploy`。Worker、域名和访问设置在 `void.config.ts`。
@@ -22,15 +22,15 @@ Cloudflare Workers Builds：构建命令 `bun run build`，部署命令 `bun run
 
 ```text
 public/
-├── models/skull.obj        # 骷髅头模型
+├── skull.bin          # 骷髅头模型（由 scripts/skull.mjs 生成）
 ├── favicon.svg
 └── robots.txt
-src/
-├── components/Skull.astro  # three.js 场景与交互
-├── pages/index.astro       # 首页与社交链接
-└── styles.css              # 全局样式
-astro.config.mjs            # Astro、Tailwind 与构建
-void.config.ts              # Cloudflare 部署
+scripts/
+├── skull.obj          # 模型源文件
+└── skull.mjs          # node scripts/skull.mjs scripts/skull.obj public/skull.bin
+index.html             # 首页、样式与社交链接（字体来自 Google Fonts，按页脚文字子集化）
+src/main.ts            # WebGL 场景与交互
+void.config.ts         # 静态部署与 Cloudflare 设置
 ```
 
 ## 署名

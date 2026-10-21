@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <title>um1ng</title>
+        <meta name="description" content="um1ng" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <!-- text= subsets the font to just the footer's letters; update it when the links change. -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist+Pixel&text=XGitHub&display=swap" />
+        <style>
+            html {
+                color-scheme: dark;
+                background: #121110;
+            }
+            body {
+                position: relative;
+                height: 100dvh;
+                margin: 0;
+                overflow: hidden;
+                font: 16px/1.5 'Geist Pixel', ui-sans-serif, system-ui, sans-serif;
+                -webkit-font-smoothing: antialiased;
+                background: radial-gradient(ellipse at center, #4a4640 0%, #22201d 45%, #121110 100%);
+            }
+            canvas {
+                position: absolute;
+                inset: 0;
+                display: block;
+                width: 100%;
+                height: 100%;
+            }
+            footer {
+                position: absolute;
+                inset: auto 0 2.5rem;
+                display: flex;
+                justify-content: center;
+                gap: 2rem;
+            }
+            a {
+                color: oklch(70.9% 0.01 56.259); /* Tailwind stone-400 */
+                text-decoration: none;
+            }
+            a:hover {
+                color: #fff;
+            }
+        </style>
+        <script type="module" src="/src/main.ts"></script>
+    </head>
+    <body>
+        <canvas id="skull" aria-hidden="true"></canvas>
+        <footer>
+            <a href="https://x.com/um1ng_x">X</a>
+            <a href="https://github.com/youming-ai">GitHub</a>
+        </footer>
+    </body>
+</html>
