@@ -11,9 +11,9 @@
 ```sh
 bun install
 bun dev          # 本地开发
-bun run build    # 构建到 dist
+bun run build    # 构建到 dist/client
 bun preview      # 预览构建结果
-bun run deploy   # void deploy：构建并部署
+bun run deploy   # 上传 dist/client（不会重新构建）
 ```
 
 Cloudflare Workers Builds：构建命令 `bun run build`，部署命令 `bun run deploy`。Worker、域名和访问设置在 `void.config.ts`。
