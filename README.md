@@ -2,7 +2,7 @@
 
 [um1ng.me](https://um1ng.me) · 个人主页，跟随鼠标转动的线框与粒子骷髅头。
 
-[Void](https://void.cloud)（Vite）· Tailwind CSS · three.js · Cloudflare Workers。
+[Void](https://void.cloud)（Vite）· three.js · Cloudflare Workers。
 
 ## 使用
 
@@ -23,13 +23,13 @@ Cloudflare Workers Builds：构建命令 `bun run build`，部署命令 `bun run
 ```text
 public/
 ├── models/skull.obj   # 骷髅头模型
+├── geist-pixel.woff2  # 字体（Geist Pixel latin）
 ├── favicon.svg
 └── robots.txt
-index.html             # 首页与社交链接
+index.html             # 首页、样式与社交链接
 src/
-├── main.ts            # three.js 场景与交互
-└── styles.css         # 全局样式
-vite.config.ts         # Tailwind 与 voidPlugin
+└── main.ts            # three.js 场景与交互
+vite.config.ts         # voidPlugin
 void.config.ts         # app 类型与 Cloudflare 部署
 ```
 

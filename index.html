@@ -6,13 +6,55 @@
         <title>um1ng</title>
         <meta name="description" content="um1ng" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="preload" href="/geist-pixel.woff2" as="font" type="font/woff2" crossorigin />
+        <style>
+            @font-face {
+                font-family: 'Geist Pixel';
+                font-display: swap;
+                src: url(/geist-pixel.woff2) format('woff2');
+            }
+            html {
+                color-scheme: dark;
+                background: #121110;
+            }
+            body {
+                position: relative;
+                height: 100dvh;
+                margin: 0;
+                overflow: hidden;
+                font: 16px/1.5 'Geist Pixel', ui-sans-serif, system-ui, sans-serif;
+                -webkit-font-smoothing: antialiased;
+                background: radial-gradient(ellipse at center, #4a4640 0%, #22201d 45%, #121110 100%);
+            }
+            canvas {
+                position: absolute;
+                inset: 0;
+                display: block;
+                width: 100%;
+                height: 100%;
+            }
+            footer {
+                position: absolute;
+                inset: auto 0 2.5rem;
+                display: flex;
+                justify-content: center;
+                gap: 2rem;
+            }
+            a {
+                color: oklch(70.9% 0.01 56.259); /* Tailwind stone-400 */
+                text-decoration: none;
+            }
+            a:hover {
+                color: #fff;
+            }
+        </style>
         <script type="module" src="/src/main.ts"></script>
     </head>
-    <body class="relative h-dvh overflow-hidden font-sans antialiased">
-        <canvas id="skull" class="absolute inset-0 h-full w-full" aria-hidden="true"></canvas>
-        <footer class="absolute inset-x-0 bottom-10 flex justify-center gap-8 text-stone-400">
-            <a href="https://x.com/um1ng_x" class="hover:text-white">X</a>
-            <a href="https://github.com/youming-ai" class="hover:text-white">GitHub</a>
+    <body>
+        <canvas id="skull" aria-hidden="true"></canvas>
+        <footer>
+            <a href="https://x.com/um1ng_x">X</a>
+            <a href="https://github.com/youming-ai">GitHub</a>
         </footer>
     </body>
 </html>

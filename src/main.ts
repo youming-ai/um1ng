@@ -1,5 +1,3 @@
-import '@fontsource/geist-pixel';
-import './styles.css';
 import * as THREE from 'three';
 import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
 
