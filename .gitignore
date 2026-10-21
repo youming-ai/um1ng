@@ -1,9 +1,7 @@
 # Dependencies and generated files
 node_modules/
 dist/
-.astro/
 .void/
-.void-wrangler.jsonc
 .wrangler/
 
 # Local environment and logs

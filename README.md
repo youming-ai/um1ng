@@ -2,7 +2,7 @@
 
 [um1ng.me](https://um1ng.me) · 个人主页，跟随鼠标转动的线框与粒子骷髅头。
 
-Astro · Tailwind CSS · three.js · Cloudflare Workers（Void 部署）。
+Vite · Tailwind CSS · three.js · Cloudflare Workers（Void 部署）。
 
 ## 使用
 
@@ -11,7 +11,7 @@ Astro · Tailwind CSS · three.js · Cloudflare Workers（Void 部署）。
 ```sh
 bun install
 bun dev          # 本地开发
-bun run build    # 构建到 dist/client
+bun run build    # 构建到 dist
 bun preview      # 预览构建结果
 bun run deploy   # 部署已构建的产物
 ```
@@ -22,15 +22,15 @@ Cloudflare Workers Builds：构建命令 `bun run build`，部署命令 `bun run
 
 ```text
 public/
-├── models/skull.obj        # 骷髅头模型
+├── models/skull.obj   # 骷髅头模型
 ├── favicon.svg
 └── robots.txt
+index.html             # 首页与社交链接
 src/
-├── components/Skull.astro  # three.js 场景与交互
-├── pages/index.astro       # 首页与社交链接
-└── styles.css              # 全局样式
-astro.config.mjs            # Astro、Tailwind 与构建
-void.config.ts              # Cloudflare 部署
+├── main.ts            # three.js 场景与交互
+└── styles.css         # 全局样式
+vite.config.ts         # Tailwind 与构建
+void.config.ts         # Cloudflare 部署
 ```
 
 ## 署名
