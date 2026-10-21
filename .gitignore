@@ -1,26 +1,14 @@
-# build output
-dist/
-# generated types
-.astro/
-
-# dependencies
+# Dependencies and generated files
 node_modules/
-
-# logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-
-# environment variables
-.env
-.env.production
-
-# macOS-specific files
-.DS_Store
-
-# void / wrangler generated
+dist/
+.astro/
 .void/
 .void-wrangler.jsonc
 .wrangler/
-src/middleware.ts
+
+# Local environment and logs
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store

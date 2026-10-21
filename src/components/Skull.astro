@@ -1,18 +1,12 @@
----
-// Wireframe + point-cloud skull that turns toward the cursor, after pvp.trade.
-// Model: "Human Skull" by CDmir, CC0 — https://opengameart.org/content/human-skull-0
----
-
 <canvas id="skull" class="absolute inset-0 h-full w-full" aria-hidden="true"></canvas>
 
 <script>
     import * as THREE from 'three';
     import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
 
-    // ponytail: hand-tuned for this model.
+    // Dimensions and point size are tuned for public/models/skull.obj.
     const SKULL_HEIGHT = 4.2; // world units, camera sits at z=6
     const INTRO_ZOOM = 5; // starts this many times larger, eases down to 1
-    // pvp.trade uses 0.01 on a ~38k-vertex skull; this one has ~2.4k vertices, so the points are drawn larger.
     const POINT_SIZE = 0.02;
 
     const canvas = document.querySelector<HTMLCanvasElement>('#skull')!;
