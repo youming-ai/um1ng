@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 
 @theme {
-    --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+    --font-sans: 'Geist Pixel', ui-sans-serif, system-ui, sans-serif;
 }
 
 :root {
