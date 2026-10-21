@@ -28,10 +28,56 @@
     const wireMaterial = new THREE.MeshPhongMaterial({ color: 'white', wireframe: true, transparent: true, opacity: 0 });
     const pointMaterial = new THREE.PointsMaterial({ color: 'white', size: POINT_SIZE, transparent: true, opacity: 0 });
 
+    const SCATTER_RADIUS = 0.6; // world units around the pointer ray
+    const SCATTER_FORCE = 0.04;
+    const SCATTER_RETURN = 0.92; // per-frame decay of the offset, lower snaps back faster
+
     const mouse = new THREE.Vector2();
     const gaze = new THREE.Vector2();
+    let pointerActive = false;
     if (!reducedMotion) {
-        addEventListener('pointermove', (e) => mouse.set((e.clientX / innerWidth) * 2 - 1, -(e.clientY / innerHeight) * 2 + 1));
+        addEventListener('pointermove', (e) => {
+            mouse.set((e.clientX / innerWidth) * 2 - 1, -(e.clientY / innerHeight) * 2 + 1);
+            pointerActive = true;
+        });
+        document.addEventListener('pointerleave', () => (pointerActive = false));
+    }
+
+    // Vertices near the pointer ray get pushed away from it, then ease back to rest.
+    type Scatter = { mesh: THREE.Mesh; attr: THREE.BufferAttribute; rest: Float32Array; offset: Float32Array; jitter: Float32Array };
+    const scatters: Scatter[] = [];
+    const raycaster = new THREE.Raycaster();
+    const ray = new THREE.Ray();
+    const inverse = new THREE.Matrix4();
+    const v = new THREE.Vector3();
+    const closest = new THREE.Vector3();
+    function scatter() {
+        raycaster.setFromCamera(mouse, camera);
+        for (const s of scatters) {
+            inverse.copy(s.mesh.matrixWorld).invert();
+            ray.copy(raycaster.ray).applyMatrix4(inverse);
+            const radius = SCATTER_RADIUS / s.mesh.matrixWorld.getMaxScaleOnAxis();
+            const { rest, offset, jitter } = s;
+            for (let i = 0; i < rest.length; i += 3) {
+                if (pointerActive) {
+                    v.fromArray(rest, i);
+                    ray.closestPointToPoint(v, closest);
+                    const d = v.distanceTo(closest);
+                    if (d < radius && d > 0) {
+                        const push = (1 - d / radius) * SCATTER_FORCE * radius * jitter[i / 3];
+                        v.sub(closest).multiplyScalar(push / d);
+                        offset[i] += v.x;
+                        offset[i + 1] += v.y;
+                        offset[i + 2] += v.z;
+                    }
+                }
+                for (let k = i; k < i + 3; k++) {
+                    offset[k] *= SCATTER_RETURN;
+                    s.attr.array[k] = rest[k] + offset[k];
+                }
+            }
+            s.attr.needsUpdate = true;
+        }
     }
 
     let renderFrame: ((now: number) => void) | undefined;
@@ -49,7 +95,12 @@
         obj.traverse((child) => {
             if ((child as THREE.Mesh).isMesh) {
                 const { geometry } = child as THREE.Mesh;
-                model.add(new THREE.Mesh(geometry, wireMaterial), new THREE.Points(geometry, pointMaterial));
+                const mesh = new THREE.Mesh(geometry, wireMaterial);
+                model.add(mesh, new THREE.Points(geometry, pointMaterial));
+                const attr = geometry.attributes.position as THREE.BufferAttribute;
+                const rest = Float32Array.from(attr.array);
+                const jitter = Float32Array.from({ length: attr.count }, () => 0.5 + Math.random());
+                scatters.push({ mesh, attr, rest, offset: new Float32Array(rest.length), jitter });
             }
         });
         // The OBJ's units are arbitrary: center it and scale it to SKULL_HEIGHT.
@@ -68,6 +119,8 @@
 
             gaze.lerp(mouse, 0.05);
             skull.lookAt(gaze.x, gaze.y, 1);
+            skull.updateMatrixWorld();
+            if (!reducedMotion) scatter();
 
             const viewHeight = 2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * camera.position.z;
             light.position.set((mouse.x * viewHeight * camera.aspect) / 2, (mouse.y * viewHeight) / 2, 4);
