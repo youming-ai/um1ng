@@ -1,0 +1,28 @@
+@import 'tailwindcss';
+
+@theme {
+    --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+    color-scheme: dark;
+    background: #121110;
+}
+
+/* Links fade up after the skull has zoomed in (pvp.trade-style intro). */
+.rise {
+    animation: rise 1.6s 2.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes rise {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rise {
+        animation: none;
+    }
+}

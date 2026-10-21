@@ -1,0 +1,88 @@
+---
+// Wireframe + point-cloud skull that turns toward the cursor, after pvp.trade.
+// Model: "Human Skull" by CDmir, CC0 — https://opengameart.org/content/human-skull-0
+---
+
+<canvas id="skull" class="absolute inset-0 h-full w-full" aria-hidden="true"></canvas>
+
+<script>
+    import * as THREE from 'three';
+    import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
+
+    // ponytail: hand-tuned for this model; change these if the model is swapped.
+    const SKULL_HEIGHT = 4.2; // world units, camera sits at z=6
+    const MODEL_ROTATION_Y = 0; // radians, turns the model's face toward +z
+    const INTRO_ZOOM = 5; // starts this many times larger, eases down to 1
+
+    const canvas = document.querySelector<HTMLCanvasElement>('#skull')!;
+    const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.Fog('#3c3c5d', 0, 25);
+    const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 100);
+    camera.position.z = 6;
+
+    const light = new THREE.PointLight('white', 4 * Math.PI, 10);
+    scene.add(light, new THREE.AmbientLight('white', 0.1));
+
+    const skull = new THREE.Group();
+    scene.add(skull);
+
+    const wire = new THREE.MeshPhongMaterial({ color: 'white', wireframe: true, transparent: true, opacity: 0 });
+    const dots = new THREE.PointsMaterial({ color: 'white', size: 0.02, transparent: true, opacity: 0 });
+
+    const mouse = new THREE.Vector2();
+    const gaze = new THREE.Vector2();
+    if (!still) {
+        addEventListener('pointermove', (e) => mouse.set((e.clientX / innerWidth) * 2 - 1, -(e.clientY / innerHeight) * 2 + 1));
+    }
+
+    let renderFrame: ((now: number) => void) | undefined;
+    function resize() {
+        const { clientWidth: w, clientHeight: h } = canvas;
+        renderer.setSize(w, h, false);
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+        if (still) renderFrame?.(performance.now());
+    }
+    new ResizeObserver(resize).observe(canvas);
+
+    new OBJLoader().load('/models/skull.obj', (obj) => {
+        const model = new THREE.Group();
+        obj.traverse((child) => {
+            if ((child as THREE.Mesh).isMesh) {
+                const { geometry } = child as THREE.Mesh;
+                model.add(new THREE.Mesh(geometry, wire), new THREE.Points(geometry, dots));
+            }
+        });
+        // Center the model and normalize its height so any OBJ fits the same frame.
+        const box = new THREE.Box3().setFromObject(model);
+        const size = box.getSize(new THREE.Vector3());
+        model.position.copy(box.getCenter(new THREE.Vector3()).negate());
+        const fit = new THREE.Group().add(model);
+        fit.scale.setScalar(SKULL_HEIGHT / size.y);
+        fit.rotation.y = MODEL_ROTATION_Y;
+        skull.add(fit);
+
+        const start = performance.now();
+        renderFrame = (now) => {
+            const t = still ? Infinity : (now - start) / 1000;
+            const portrait = Math.min(1, camera.aspect + 0.3); // shrink on narrow screens
+            skull.scale.setScalar(portrait * (1 + (INTRO_ZOOM - 1) * Math.pow(2, -10 * Math.min(t / 6, 1))));
+            dots.opacity = Math.min(t / 3, 1);
+            wire.opacity = 0.2 * THREE.MathUtils.clamp((t - 2) / 2, 0, 1);
+
+            gaze.lerp(mouse, 0.05);
+            skull.lookAt(gaze.x, gaze.y, 1);
+
+            const h = 2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * camera.position.z;
+            light.position.set((mouse.x * h * camera.aspect) / 2, (mouse.y * h) / 2, 4);
+
+            renderer.render(scene, camera);
+        };
+        resize();
+        if (!still) renderer.setAnimationLoop(renderFrame);
+    });
+</script>
