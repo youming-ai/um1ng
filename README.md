@@ -25,11 +25,18 @@ bun preview     # 预览构建结果(后台运行,重新 build 后先 `bunx astr
 ## 部署
 
 ```sh
-bunx void deploy --platform cloudflare   # 第一次:浏览器登录并选择账号
-bun run deploy                           # 之后
+bun run build
+bun run deploy   # 将 dist/client 静态产物部署到 Cloudflare
 ```
 
-Worker 名在 `void.config.ts`(`um1ng`)。
+Worker 名在 `void.config.ts`(`um1ng`)，现有自定义域名为 `um1ng.me`。
+
+Cloudflare Workers Builds 的设置：
+
+- Build command: `bun run build`
+- Deploy command: `bunx void deploy --platform cloudflare --dir dist/client`
+
+部署脚本显式指定 Cloudflare 和静态产物目录，避免将预渲染站点当作 Astro Worker 部署。保留 `void.config.ts` 中已有的域名和访问设置。
 
 ## 目录结构
 
