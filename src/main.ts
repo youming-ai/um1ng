@@ -1,11 +1,13 @@
-// Raw WebGL port of the old three.js scene: a wireframe and a point cloud of public/skull.bin
-// (built by scripts/skull.mjs), lit by a point light that follows the pointer, in linear fog.
+// WebGL wireframe and point cloud from public/skull.bin (built by scripts/skull.mjs),
+// lit by a point light that follows the pointer, with depth-based fog.
 const INTRO_ZOOM = 5; // starts this many times larger, eases down to 1
 const POINT_SIZE = 0.02; // world units
-const WIRE_OPACITY = 0.3; // three drew shared edges twice at 0.2; edges are now deduplicated
+const WIRE_OPACITY = 0.3; // tuned for deduplicated edges
 const CAMERA_Z = 6;
 const FOV = (75 * Math.PI) / 180;
-const FOG = [0.045, 0.045, 0.11]; // #3c3c5d in linear space, mixed after sRGB encoding as three does
+const TAN_HALF_FOV = Math.tan(FOV / 2);
+const VIEW_HEIGHT = 2 * TAN_HALF_FOV * CAMERA_Z;
+const FOG = [0.045, 0.045, 0.11]; // #3c3c5d in linear space; mixed after sRGB encoding to preserve the look
 const FOG_FAR = 25;
 
 const SCATTER_RADIUS = 0.6; // world units around the pointer ray
@@ -23,7 +25,7 @@ uniform vec3 light;
 uniform float aspect, pointScale;
 varying vec3 color;
 varying float fogDepth;
-const float F = ${(1 / Math.tan(FOV / 2)).toFixed(6)};
+const float F = ${(1 / TAN_HALF_FOV).toFixed(6)};
 vec3 srgb(vec3 c) { return mix(pow(c, vec3(0.41666)) * 1.055 - 0.055, c * 12.92, vec3(lessThanEqual(c, vec3(0.0031308)))); }
 void main() {
     vec3 world = model * position;
@@ -31,7 +33,7 @@ void main() {
     gl_Position = vec4(view.x * F / aspect, view.y * F, (view.z * 100.1 + 20.0) / -99.9, -view.z);
     gl_PointSize = pointScale / -view.z;
     fogDepth = -view.z;
-    // Lambert diffuse from a 4π point light with distance 10 and decay 2, as three's MeshPhongMaterial.
+    // Lambert diffuse with inverse-square attenuation and a smooth cutoff at distance 10.
     vec3 toLight = light - world;
     float d = length(toLight);
     float falloff = pow(clamp(1.0 - pow(d / 10.0, 4.0), 0.0, 1.0), 2.0) / max(d * d, 0.01);
@@ -78,19 +80,7 @@ if (!reducedMotion) {
     document.addEventListener('pointerleave', () => (pointerActive = false));
 }
 
-let aspect = 1;
-let renderFrame: ((now: number) => void) | undefined;
-function resize() {
-    const dpr = Math.min(devicePixelRatio, 2);
-    canvas.width = canvas.clientWidth * dpr;
-    canvas.height = canvas.clientHeight * dpr;
-    gl.viewport(0, 0, canvas.width, canvas.height);
-    aspect = canvas.clientWidth / canvas.clientHeight;
-    if (reducedMotion) renderFrame?.(performance.now());
-}
-new ResizeObserver(resize).observe(canvas);
-
-// The skull's rotation is three's Object3D.lookAt: +Z towards (gaze, 1), +Y kept up.
+// Rotate +Z towards (gaze, 1), keeping +Y up.
 function lookAt(x: number, y: number) {
     const zl = Math.hypot(x, y, 1);
     const z = [x / zl, y / zl, 1 / zl];
@@ -103,6 +93,7 @@ function lookAt(x: number, y: number) {
 fetch('/skull.bin')
     .then((r) => r.arrayBuffer())
     .then((buf) => {
+        let aspect = 1;
         const count = new Uint32Array(buf, 0, 1)[0];
         const rest = Float32Array.from(new Int16Array(buf, 4, count * 3), (x) => x / 8192);
         const normals = new Int8Array(buf, 4 + 6 * count, count * 3);
@@ -126,8 +117,7 @@ fetch('/skull.bin')
         // Vertices near the pointer ray get pushed away from it, then ease back to rest.
         // Works in model space: the ray is rotated by the transpose of the rotation and divided by the scale.
         function scatter(r: number[], scale: number) {
-            const t = Math.tan(FOV / 2);
-            let [dx, dy, dz] = [mouse[0] * t * aspect, mouse[1] * t, -1];
+            const [dx, dy, dz] = [mouse[0] * TAN_HALF_FOV * aspect, mouse[1] * TAN_HALF_FOV, -1];
             const dl = Math.hypot(dx, dy, dz);
             const dir = [0, 1, 2].map((i) => (r[i * 3] * dx + r[i * 3 + 1] * dy + r[i * 3 + 2] * dz) / dl);
             const origin = [0, 1, 2].map((i) => (r[i * 3 + 2] * CAMERA_Z) / scale);
@@ -152,7 +142,7 @@ fetch('/skull.bin')
         }
 
         const start = performance.now();
-        renderFrame = (now) => {
+        function render(now: number) {
             const t = reducedMotion ? Infinity : (now - start) / 1000;
             const scale = 1 + (INTRO_ZOOM - 1) * Math.pow(2, -10 * Math.min(t / 6, 1));
             gaze[0] += (mouse[0] - gaze[0]) * 0.05;
@@ -160,26 +150,30 @@ fetch('/skull.bin')
             const r = lookAt(gaze[0], gaze[1]);
             if (!reducedMotion) scatter(r, scale);
 
-            const viewHeight = 2 * Math.tan(FOV / 2) * CAMERA_Z;
             gl.uniformMatrix3fv(uModel, false, r.map((x) => x * scale));
-            gl.uniform3f(uLight, (mouse[0] * viewHeight * aspect) / 2, (mouse[1] * viewHeight) / 2, 4);
+            gl.uniform3f(uLight, (mouse[0] * VIEW_HEIGHT * aspect) / 2, (mouse[1] * VIEW_HEIGHT) / 2, 4);
             gl.uniform1f(uAspect, aspect);
             gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
             gl.uniform1f(uPointScale, 0);
             gl.uniform1f(uOpacity, WIRE_OPACITY * Math.min(Math.max((t - 2) / 2, 0), 1));
             gl.drawElements(gl.LINES, edges.length, gl.UNSIGNED_SHORT, 0);
-            // three's size attenuation: size * (drawing-buffer height / 2) / depth.
+            // Perspective point size: world size * (drawing-buffer height / 2) / depth.
             gl.uniform1f(uPointScale, (POINT_SIZE * canvas.height) / 2);
             gl.uniform1f(uOpacity, Math.min(t / 3, 1));
             gl.drawArrays(gl.POINTS, 0, count);
-        };
-        resize();
-        if (!reducedMotion) {
-            const loop = (now: number) => {
-                renderFrame!(now);
-                requestAnimationFrame(loop);
-            };
-            requestAnimationFrame(loop);
+            if (!reducedMotion) requestAnimationFrame(render);
         }
+
+        function resize() {
+            const dpr = Math.min(devicePixelRatio, 2);
+            canvas.width = canvas.clientWidth * dpr;
+            canvas.height = canvas.clientHeight * dpr;
+            gl.viewport(0, 0, canvas.width, canvas.height);
+            aspect = canvas.clientWidth / canvas.clientHeight;
+            if (reducedMotion) render(performance.now());
+        }
+        resize();
+        new ResizeObserver(resize).observe(canvas);
+        if (!reducedMotion) requestAnimationFrame(render);
     });
