@@ -11,7 +11,7 @@ const tris = [];
 for (const line of readFileSync(src, 'utf8').split('\n')) {
     const [k, ...a] = line.trim().split(/\s+/);
     if (k === 'v') pos.push(a.map(Number));
-    // Fan-triangulate like three's OBJLoader, so the wireframe keeps the quad diagonals.
+    // Fan-triangulate faces, retaining polygon diagonals in the wireframe.
     if (k === 'f') {
         const f = a.map((s) => parseInt(s) - 1);
         for (let i = 1; i < f.length - 1; i++) tris.push([f[0], f[i], f[i + 1]]);
